@@ -1,0 +1,1642 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        <title>Colbys Schedule</title>
+    </head>
+    <style>
+        div.mainText {
+            text-align: center;
+        }
+    </style>
+    <script>
+        function setup() {
+            document.getElementById("DayForm").style.fontSize="35px";
+            document.getElementById("Christmas").style.visibility="hidden";
+            date = new Date();
+            month = date.getMonth();
+            month += 1;
+            day = date.getDay();
+            day += 1;
+            hours = date.getHours();
+            minutes = date.getMinutes();
+            schoolDay = 33;
+            currentTime = hours+'.'+minutes;
+            lunchNext=false;
+            Breaks=0;
+
+            aPeriod = "Graphic Design";
+            bPeriod = "APCS";
+            c157Period = "Gym";
+            c246Period = "Study";
+            dPeriod = "Coll Alg";
+            ePeriod = "Study";
+            fPeriod = "CReW";
+            gPeriod = "Drawing";
+            
+
+            getDate();
+        }
+        function refreshFunc() {
+            date2 = new Date();
+            minutes2=date2.getMinutes();
+            //1029-932-40   10:29 - 9:32 then - 40 per hour cause 100-40=60 which is a minute :)
+            
+            if (CPT===true) {
+                p1Min=52;
+                p2Min=44;
+                p3Min=36;
+                p4Min1=21;
+                p4Min2=71;  //CPT & Adv Lunch Might Have Error :)
+                p5Min=13;
+                p6Min=5;
+            } else if (Adv===true) {
+                p1Min=19;
+                p2Min=41;
+                p3Min=34;
+                p4Min1=19;
+                p4Min2=71;  //CPT & Adv Lunch Might Have Error :)
+                p5Min=12;
+                p6Min=5;
+            } else {
+                p1Min=32;
+                p2Min=29;
+                p3Min=26;
+                p4Min1=11;
+                p4Min2=71;
+                p5Min=8;
+                p6Min=5;
+            }
+
+            if (PeriodNum===1) {
+                MainHours=date2.getHours();
+                if (MainHours===9) {
+                    MainTimeLeft=(p1Min-minutes2);
+                } else if (MainHours===8) {
+                    MainTimeLeft=p1Min+(60-minutes2);
+                }
+                document.getElementById("MinutesLeft").innerHTML=MainTimeLeft; 
+            }
+
+            if (PeriodNum===2) {
+                MainHours=date2.getHours();
+                if (MainHours===10) {
+                    MainTimeLeft=(p2Min-minutes2);
+                } else if (MainHours===9) {
+                    MainTimeLeft=p2Min+(60-minutes2);
+                }
+                document.getElementById("MinutesLeft").innerHTML=MainTimeLeft; 
+            }
+
+            if (PeriodNum===3) {
+                MainHours=date2.getHours();
+                if (MainHours===11) {
+                    MainTimeLeft=(p3Min-minutes2);
+                } else if (MainHours===10) {
+                    MainTimeLeft=p3Min+(60-minutes2);
+                }
+                document.getElementById("MinutesLeft").innerHTML=MainTimeLeft; 
+            }
+
+            if (PeriodNum===4) {
+                MainHours=date2.getHours();
+                if (MainHours===12) {
+                    MainTimeLeft=p4Min1+(60-minutes2);
+                } else if (MainHours===13) {
+                    MainTimeLeft=(p4Min1-minutes2);
+                } else if (MainHours===11) {
+                    MainTimeLeft=p4Min2+(60-minutes2);
+                    //MainTimeLeft=(94/2)+minutes2-11;
+                }
+                document.getElementById("MinutesLeft").innerHTML=MainTimeLeft; 
+            }
+
+            if (PeriodNum===5) {
+                MainHours=date2.getHours();
+                if (MainHours===14) {
+                    MainTimeLeft=(p5Min-minutes2);
+                } else if (MainHours===13) {
+                    MainTimeLeft=p5Min+(60-minutes2);
+                }
+                document.getElementById("MinutesLeft").innerHTML=MainTimeLeft; 
+            }
+
+            if (PeriodNum===6) {
+                MainHours=date2.getHours();
+                if (MainHours===15) {
+                    MainTimeLeft=(p6Min-minutes2);
+                } else if (MainHours===14) {
+                    MainTimeLeft=p6Min+(60-minutes2);
+                }
+                document.getElementById("MinutesLeft").innerHTML=MainTimeLeft; 
+            }
+
+        }
+    </script>
+    <body onload="setup()">
+        <div class="mainText">
+            <form id=DayForm>
+                <p1 id=DayText>Today is day: </p1>
+                <p2 id=Day></p2>
+                <br>
+                <p3 id=PeriodText>The period is: </p3>
+                <p4 id=Period></p4>
+                <br>
+                <p5 id=ClassText>You have: </p5>
+                <p6 id=Class></p6>
+
+                <br>
+                <br>
+
+                <p87>In </p87>
+                <p88 id=MinutesLeft></p88>
+                <p89> minutes you will have </p89>
+                <p90 id=NextClass></p90>
+                <p91> which is </p91>
+                <p92 id=NextPeriod></p92>
+                <p93> period</p93>
+                
+                <br>
+                <br>
+
+                <button id=reloadButton onlick="refreshFunc()">Refresh Page :)</button>
+
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <p333>Made by Colby Bianco :)</p333>
+                <br>
+                <p25 id=Christmas>Merry Christmas!!!</p25>
+            </form>
+        </div>
+        <!--
+        <button id=DebugButton onclick="getDate()">Debug</button>
+        <p7 id=DebugText>Debug</p7>
+        <p8 id=DebugText2>Debug2</p8>
+        <p9 id=DebugText3>Debug3</p9>
+        -->
+    </body>
+    <script>
+        function getDate() {
+            day+=Breaks;
+            if (month===12) {
+                if (day===2){   //Monday
+                    weekDay="Monday";
+                    schoolDay=3;
+                }
+                if (day===3){   //Tuesday
+                    weekDay="Tuesday";
+                    schoolDay=4;
+                }
+                if (day===4){   //Wednesday
+                    weekDay="Wednesday";
+                    schoolDay=5;
+                }
+                if (day===5){   //Thursday
+                    weekDay="Thursday";
+                    schoolDay=6;
+                }
+                if (day===6){   //Friday
+                    weekDay="Friday";
+                    schoolDay=7;
+                }
+                if (day===7){   //Saturday
+                    weekDay="Satuday";
+                    schoolDay=0;
+                }
+                if (day===8){   //Sunday
+                    weekDay="Sunday";
+                    schoolDay=0;
+                }
+
+                
+                if (day===9){   //Monday
+                    weekDay="Monday";
+                    schoolDay=1;
+                }
+                if (day===10){   //Tuesday
+                    weekDay="Tuesday";
+                    schoolDay=2;
+                }
+                if (day===11){   //Wednesday
+                    weekDay="Wednesday";
+                    schoolDay=3;
+                }
+                if (day===12){   //Thursday
+                    weekDay="Thursday";
+                    schoolDay=4;
+                }
+                if (day===13){   //Friday
+                    weekDay="Friday";
+                    schoolDay=5;
+                }
+                if (day===14){   //Saturday
+                    weekDay="Satuday";
+                    schoolDay=0;
+                }
+                if (day===15){   //Sunday
+                    weekDay="Sunday";
+                    schoolDay=0;
+                }
+
+
+                
+                if (day===16){   //Monday
+                    weekDay="Monday";
+                    schoolDay=6;
+                }
+                if (day===17){   //Tuesday
+                    weekDay="Tuesday";
+                    schoolDay=7;
+                }
+                if (day===18){   //Wednesday
+                    weekDay="Wednesday";
+                    schoolDay=1;
+                }
+                if (day===19){   //Thursday
+                    weekDay="Thursday";
+                    schoolDay=2;
+                }
+                if (day===20){   //Friday
+                    weekDay="Friday";
+                    schoolDay=3;
+                }
+                if (day===21){   //Saturday
+                    weekDay="Satuday";
+                    schoolDay=0;
+                }
+                if (day===22){   //Sunday
+                    weekDay="Sunday";
+                    schoolDay=0;
+                }
+
+                
+                if (day===23){   //Monday
+                    weekDay="Monday";
+                    schoolDay=4;
+                }
+                if (day===24){   //Tuesday
+                    weekDay="Tuesday";
+                    schoolDay=5;
+                }
+                if (day===25){   //Wednesday
+                    weekDay="Wednesday";
+                    schoolDay=6;
+                    document.getElementById("Christmas").style.visibility="visible";
+                    document.getElementById("Christmas").style.fontSize="75px";
+                }
+                if (day===26){   //Thursday
+                    weekDay="Thursday";
+                    schoolDay=7;
+                }
+                if (day===27){   //Friday
+                    weekDay="Friday";
+                    schoolDay=1;
+                }
+                if (day===28){   //Saturday
+                    weekDay="Satuday";
+                    schoolDay=0;
+                }
+                if (day===29){   //Sunday
+                    weekDay="Sunday";
+                    schoolDay=0;
+                }
+
+                
+                if (day===30){   //Monday
+                    weekDay="Monday";
+                    schoolDay=2;
+                }
+                if (day===31){   //Tuesday
+                    weekDay="Tuesday";
+                    schoolDay=3;
+                }
+
+            }
+            
+            if (month===1) {
+                if (day===1){   //Wednesday
+                    weekDay="Wednesday";
+                    schoolDay=4;
+                }
+                if (day===2){   //Thursday
+                    weekDay="Thursday";
+                    schoolDay=5;
+                }
+                if (day===3){   //Friday
+                    weekDay="Friday";
+                    schoolDay=6;
+                }
+                if (day===4){   //Saturday
+                    weekDay="Satuday";
+                    schoolDay=0;
+                }
+                if (day===5){   //Sunday
+                    weekDay="Sunday";
+                    schoolDay=0;
+                }
+
+                
+                if (day===6){   //Monday
+                    weekDay="Monday";
+                    schoolDay=7;
+                }
+                if (day===7){   //Tuesday
+                    weekDay="Tuesday";
+                    schoolDay=1;
+                }
+                if (day===8){   //Wednesday
+                    weekDay="Wednesday";
+                    schoolDay=2;
+                }
+                if (day===9){   //Thursday
+                    weekDay="Thursday";
+                    schoolDay=3;
+                }
+                if (day===10){   //Friday
+                    weekDay="Friday";
+                    schoolDay=4;
+                }
+                if (day===11){   //Saturday
+                    weekDay="Satuday";
+                    schoolDay=0;
+                }
+                if (day===12){   //Sunday
+                    weekDay="Sunday";
+                    schoolDay=0;
+                }
+
+
+                
+                if (day===13){   //Monday
+                    weekDay="Monday";
+                    schoolDay=5;
+                }
+                if (day===14){   //Tuesday
+                    weekDay="Tuesday";
+                    schoolDay=6;
+                }
+                if (day===15){   //Wednesday
+                    weekDay="Wednesday";
+                    schoolDay=7;
+                }
+                if (day===16){   //Thursday
+                    weekDay="Thursday";
+                    schoolDay=1;
+                }
+                if (day===17){   //Friday
+                    weekDay="Friday";
+                    schoolDay=2;
+                }
+                if (day===18){   //Saturday
+                    weekDay="Satuday";
+                    schoolDay=0;
+                }
+                if (day===19){   //Sunday
+                    weekDay="Sunday";
+                    schoolDay=0;
+                }
+
+                
+                if (day===20){   //Monday
+                    weekDay="Monday";
+                    schoolDay=3;
+                }
+                if (day===21){   //Tuesday
+                    weekDay="Tuesday";
+                    schoolDay=4;
+                }
+                if (day===22){   //Wednesday
+                    weekDay="Wednesday";
+                    schoolDay=5;
+                }
+                if (day===23){   //Thursday
+                    weekDay="Thursday";
+                    schoolDay=6;
+                }
+                if (day===24){   //Friday
+                    weekDay="Friday";
+                    schoolDay=7;
+                }
+                if (day===25){   //Saturday
+                    weekDay="Satuday";
+                    schoolDay=0;
+                }
+                if (day===26){   //Sunday
+                    weekDay="Sunday";
+                    schoolDay=0;
+                }
+
+                
+                if (day===27){   //Monday
+                    weekDay="Monday";
+                    schoolDay=1;
+                }
+                if (day===28){   //Tuesday
+                    weekDay="Tuesday";
+                    schoolDay=2;
+                }
+                if (day===29){   //Wednesday
+                    weekDay="Wednesday";
+                    schoolDay=3;
+                }
+                if (day===30){   //Thursday
+                    weekDay="Thursday";
+                    schoolDay=4;
+                }
+                if (day===31){   //Friday
+                    weekDay="Friday";
+                    schoolDay=5;
+                }
+            }
+
+            if (month===2) {
+                if (day===1){   //Saturday
+                    weekDay="Satuday";
+                    schoolDay=0;
+                }
+                if (day===2){   //Sunday
+                    weekDay="Sunday";
+                    schoolDay=0;
+                }
+
+
+                
+                if (day===3){   //Monday
+                    weekDay="Monday";
+                    schoolDay=6;
+                }
+                if (day===4){   //Tuesday
+                    weekDay="Tuesday";
+                    schoolDay=7;
+                }
+                if (day===5){   //Wednesday
+                    weekDay="Wednesday";
+                    schoolDay=1;
+                }
+                if (day===6){   //Thursday
+                    weekDay="Thursday";
+                    schoolDay=2;
+                }
+                if (day===7){   //Friday
+                    weekDay="Friday";
+                    schoolDay=3;
+                }
+                if (day===8){   //Saturday
+                    weekDay="Satuday";
+                    schoolDay=0;
+                }
+                if (day===9){   //Sunday
+                    weekDay="Sunday";
+                    schoolDay=0;
+                }
+
+                
+                if (day===10){   //Monday
+                    weekDay="Monday";
+                    schoolDay=4;
+                }
+                if (day===11){   //Tuesday
+                    weekDay="Tuesday";
+                    schoolDay=5;
+                }
+                if (day===12){   //Wednesday
+                    weekDay="Wednesday";
+                    schoolDay=6;
+                }
+                if (day===13){   //Thursday
+                    weekDay="Thursday";
+                    schoolDay=7;
+                }
+                if (day===14){   //Friday
+                    weekDay="Friday";
+                    schoolDay=1;
+                }
+                if (day===15){   //Saturday
+                    weekDay="Satuday";
+                    schoolDay=0;
+                }
+                if (day===16){   //Sunday
+                    weekDay="Sunday";
+                    schoolDay=0;
+                }
+
+                
+                if (day===17){   //Monday
+                    weekDay="Monday";
+                    schoolDay=2;
+                }
+                if (day===18){   //Tuesday
+                    weekDay="Tuesday";
+                    schoolDay=3;
+                }
+                if (day===19){   //Wednesday
+                    weekDay="Wednesday";
+                    schoolDay=4;
+                }
+                if (day===20){   //Thursday
+                    weekDay="Thursday";
+                    schoolDay=5;
+                }
+                if (day===21){   //Friday
+                    weekDay="Friday";
+                    schoolDay=6;
+                }
+                if (day===22){   //Saturday
+                    weekDay="Satuday";
+                    schoolDay=0;
+                }
+                if (day===23){   //Sunday
+                    weekDay="Sunday";
+                    schoolDay=0;
+                }
+
+                
+                if (day===24){   //Monday
+                    weekDay="Monday";
+                    schoolDay=7;
+                }
+                if (day===25){   //Tuesday
+                    weekDay="Tuesday";
+                    schoolDay=1;
+                }
+                if (day===26){   //Wednesday
+                    weekDay="Wednesday";
+                    schoolDay=2;
+                }
+                if (day===27){   //Thursday
+                    weekDay="Thursday";
+                    schoolDay=3;
+                }
+                if (day===28){   //Friday
+                    weekDay="Friday";
+                    schoolDay=4;
+                }
+                if (day===29){   //Saturday
+                    weekDay="Satuday";
+                    schoolDay=0;
+                }
+            }
+
+            if (month===3) {
+                if (day===1){   //Sunday
+                    weekDay="Sunday";
+                    schoolDay=0;
+                }
+                if (day===2){   //Monday
+                    weekDay="Monday";
+                    schoolDay=6;
+                }
+                if (day===3){   //Tuesday
+                    weekDay="Tuesday";
+                    schoolDay=7;
+                }
+                if (day===4){   //Wednesday
+                    weekDay="Wednesday";
+                    schoolDay=1;
+                }
+                if (day===5){   //Thursday
+                    weekDay="Thursday";
+                    schoolDay=2;
+                }
+                if (day===6){   //Friday
+                    weekDay="Friday";
+                    schoolDay=3;
+                }
+                if (day===7){   //Saturday
+                    weekDay="Satuday";
+                    schoolDay=0;
+                }
+                if (day===8){   //Sunday
+                    weekDay="Sunday";
+                    schoolDay=0;
+                }
+
+                
+                if (day===9){   //Monday
+                    weekDay="Monday";
+                    schoolDay=4;
+                }
+                if (day===10){   //Tuesday
+                    weekDay="Tuesday";
+                    schoolDay=5;
+                }
+                if (day===11){   //Wednesday
+                    weekDay="Wednesday";
+                    schoolDay=6;
+                }
+                if (day===12){   //Thursday
+                    weekDay="Thursday";
+                    schoolDay=7;
+                }
+                if (day===13){   //Friday
+                    weekDay="Friday";
+                    schoolDay=1;
+                }
+                if (day===14){   //Saturday
+                    weekDay="Satuday";
+                    schoolDay=0;
+                }
+                if (day===15){   //Sunday
+                    weekDay="Sunday";
+                    schoolDay=0;
+                }
+
+                
+                if (day===16){   //Monday
+                    weekDay="Monday";
+                    schoolDay=2;
+                }
+                if (day===17){   //Tuesday
+                    weekDay="Tuesday";
+                    schoolDay=3;
+                }
+                if (day===18){   //Wednesday
+                    weekDay="Wednesday";
+                    schoolDay=4;
+                }
+                if (day===19){   //Thursday
+                    weekDay="Thursday";
+                    schoolDay=5;
+                }
+                if (day===20){   //Friday
+                    weekDay="Friday";
+                    schoolDay=6;
+                }
+                if (day===21){   //Saturday
+                    weekDay="Satuday";
+                    schoolDay=0;
+                }
+                if (day===22){   //Sunday
+                    weekDay="Sunday";
+                    schoolDay=0;
+                }
+
+                
+                if (day===23){   //Monday
+                    weekDay="Monday";
+                    schoolDay=7;
+                }
+                if (day===24){   //Tuesday
+                    weekDay="Tuesday";
+                    schoolDay=1;
+                }
+                if (day===25){   //Wednesday
+                    weekDay="Wednesday";
+                    schoolDay=2;
+                }
+                if (day===26){   //Thursday
+                    weekDay="Thursday";
+                    schoolDay=3;
+                }
+                if (day===27){   //Friday
+                    weekDay="Friday";
+                    schoolDay=4;
+                }
+                if (day===28){   //Saturday
+                    weekDay="Satuday";
+                    schoolDay=0;
+                }
+                if (day===29){   //Sunday
+                    weekDay="Sunday";
+                    schoolDay=0;
+                }
+
+                
+                if (day===30){   //Monday
+                    weekDay="Monday";
+                    schoolDay=1;
+                }
+                if (day===31){   //Tuesday
+                    weekDay="Tuesday";
+                    schoolDay=2;
+                }
+            }
+
+            if (month===4) {
+                if (day===1){   //Wednesday
+                    weekDay="Wednesday";
+                    schoolDay=3;
+                }
+                if (day===2){   //Thursday
+                    weekDay="Thursday";
+                    schoolDay=4;
+                }
+                if (day===3){   //Friday
+                    weekDay="Friday";
+                    schoolDay=5;
+                }
+                if (day===4){   //Saturday
+                    weekDay="Satuday";
+                    schoolDay=0;
+                }
+                if (day===5){   //Sunday
+                    weekDay="Sunday";
+                    schoolDay=0;
+                }
+
+
+                
+                if (day===6){   //Monday
+                    weekDay="Monday";
+                    schoolDay=6;
+                }
+                if (day===7){   //Tuesday
+                    weekDay="Tuesday";
+                    schoolDay=7;
+                }
+                if (day===8){   //Wednesday
+                    weekDay="Wednesday";
+                    schoolDay=1;
+                }
+                if (day===9){   //Thursday
+                    weekDay="Thursday";
+                    schoolDay=2;
+                }
+                if (day===10){   //Friday
+                    weekDay="Friday";
+                    schoolDay=3;
+                }
+                if (day===11){   //Saturday
+                    weekDay="Satuday";
+                    schoolDay=0;
+                }
+                if (day===12){   //Sunday
+                    weekDay="Sunday";
+                    schoolDay=0;
+                }
+
+                
+                if (day===13){   //Monday
+                    weekDay="Monday";
+                    schoolDay=4;
+                }
+                if (day===14){   //Tuesday
+                    weekDay="Tuesday";
+                    schoolDay=5;
+                }
+                if (day===15){   //Wednesday
+                    weekDay="Wednesday";
+                    schoolDay=6;
+                }
+                if (day===16){   //Thursday
+                    weekDay="Thursday";
+                    schoolDay=7;
+                }
+                if (day===17){   //Friday
+                    weekDay="Friday";
+                    schoolDay=1;
+                }
+                if (day===18){   //Saturday
+                    weekDay="Satuday";
+                    schoolDay=0;
+                }
+                if (day===19){   //Sunday
+                    weekDay="Sunday";
+                    schoolDay=0;
+                }
+
+                
+                if (day===20){   //Monday
+                    weekDay="Monday";
+                    schoolDay=2;
+                }
+                if (day===21){   //Tuesday
+                    weekDay="Tuesday";
+                    schoolDay=3;
+                }
+                if (day===22){   //Wednesday
+                    weekDay="Wednesday";
+                    schoolDay=4;
+                }
+                if (day===23){   //Thursday
+                    weekDay="Thursday";
+                    schoolDay=5;
+                }
+                if (day===24){   //Friday
+                    weekDay="Friday";
+                    schoolDay=6;
+                }
+                if (day===25){   //Saturday
+                    weekDay="Satuday";
+                    schoolDay=0;
+                }
+                if (day===26){   //Sunday
+                    weekDay="Sunday";
+                    schoolDay=0;
+                }
+
+                
+                if (day===27){   //Monday
+                    weekDay="Monday";
+                    schoolDay=7;
+                }
+                if (day===28){   //Tuesday
+                    weekDay="Tuesday";
+                    schoolDay=1;
+                }
+                if (day===29){   //Wednesday
+                    weekDay="Wednesday";
+                    schoolDay=2;
+                }
+                if (day===30){   //Thursday
+                    weekDay="Thursday";
+                    schoolDay=3;
+                }
+            }
+            
+            if (month===5) {
+                if (day===1){   //Friday
+                    weekDay="Friday";
+                    schoolDay=4;
+                }
+                if (day===2){   //Saturday
+                    weekDay="Satuday";
+                    schoolDay=0;
+                }
+                if (day===3){   //Sunday
+                    weekDay="Sunday";
+                    schoolDay=0;
+                }
+
+
+                
+                if (day===4){   //Monday
+                    weekDay="Monday";
+                    schoolDay=5;
+                }
+                if (day===5){   //Tuesday
+                    weekDay="Tuesday";
+                    schoolDay=6;
+                }
+                if (day===6){   //Wednesday
+                    weekDay="Wednesday";
+                    schoolDay=7;
+                }
+                if (day===7){   //Thursday
+                    weekDay="Thursday";
+                    schoolDay=1;
+                }
+                if (day===8){   //Friday
+                    weekDay="Friday";
+                    schoolDay=2;
+                }
+                if (day===9){   //Saturday
+                    weekDay="Satuday";
+                    schoolDay=0;
+                }
+                if (day===10){   //Sunday
+                    weekDay="Sunday";
+                    schoolDay=0;
+                }
+
+                
+                if (day===11){   //Monday
+                    weekDay="Monday";
+                    schoolDay=3;
+                }
+                if (day===12){   //Tuesday
+                    weekDay="Tuesday";
+                    schoolDay=4;
+                }
+                if (day===13){   //Wednesday
+                    weekDay="Wednesday";
+                    schoolDay=5;
+                }
+                if (day===14){   //Thursday
+                    weekDay="Thursday";
+                    schoolDay=6;
+                }
+                if (day===15){   //Friday
+                    weekDay="Friday";
+                    schoolDay=7;
+                }
+                if (day===16){   //Saturday
+                    weekDay="Satuday";
+                    schoolDay=0;
+                }
+                if (day===17){   //Sunday
+                    weekDay="Sunday";
+                    schoolDay=0;
+                }
+
+                
+                if (day===18){   //Monday
+                    weekDay="Monday";
+                    schoolDay=1;
+                }
+                if (day===19){   //Tuesday
+                    weekDay="Tuesday";
+                    schoolDay=2;
+                }
+                if (day===20){   //Wednesday
+                    weekDay="Wednesday";
+                    schoolDay=3;
+                }
+                if (day===21){   //Thursday
+                    weekDay="Thursday";
+                    schoolDay=4;
+                }
+                if (day===22){   //Friday
+                    weekDay="Friday";
+                    schoolDay=5;
+                }
+                if (day===23){   //Saturday
+                    weekDay="Satuday";
+                    schoolDay=0;
+                }
+                if (day===24){   //Sunday
+                    weekDay="Sunday";
+                    schoolDay=0;
+                }
+
+
+                
+                if (day===25){   //Monday
+                    weekDay="Monday";
+                    schoolDay=6;
+                }
+                if (day===26){   //Tuesday
+                    weekDay="Tuesday";
+                    schoolDay=7;
+                }
+                if (day===27){   //Wednesday
+                    weekDay="Wednesday";
+                    schoolDay=1;
+                }
+                if (day===28){   //Thursday
+                    weekDay="Thursday";
+                    schoolDay=2;
+                }
+                if (day===29){   //Friday
+                    weekDay="Friday";
+                    schoolDay=3;
+                }
+                if (day===30){   //Saturday
+                    weekDay="Satuday";
+                    schoolDay=0;
+                }
+                if (day===31){   //Sunday
+                    weekDay="Sunday";
+                    schoolDay=0;
+                }
+            }
+
+            if (month===6) {
+                if (day===1){   //Monday
+                    weekDay="Monday";
+                    schoolDay=4;
+                }
+                if (day===2){   //Tuesday
+                    weekDay="Tuesday";
+                    schoolDay=5;
+                }
+                if (day===3){   //Wednesday
+                    weekDay="Wednesday";
+                    schoolDay=6;
+                }
+                if (day===4){   //Thursday
+                    weekDay="Thursday";
+                    schoolDay=7;
+                }
+                if (day===5){   //Friday
+                    weekDay="Friday";
+                    schoolDay=1;
+                }
+                if (day===6){   //Saturday
+                    weekDay="Satuday";
+                    schoolDay=0;
+                }
+                if (day===7){   //Sunday
+                    weekDay="Sunday";
+                    schoolDay=0;
+                }
+
+                
+                if (day===8){   //Monday
+                    weekDay="Monday";
+                    schoolDay=2;
+                }
+                if (day===9){   //Tuesday
+                    weekDay="Tuesday";
+                    schoolDay=3;
+                }
+                if (day===10){   //Wednesday
+                    weekDay="Wednesday";
+                    schoolDay=4;
+                }
+                if (day===11){   //Thursday
+                    weekDay="Thursday";
+                    schoolDay=5;
+                }
+                if (day===12){   //Friday
+                    weekDay="Friday";
+                    schoolDay=6;
+                }
+                if (day===13){   //Saturday
+                    weekDay="Satuday";
+                    schoolDay=0;
+                }
+                if (day===14){   //Sunday
+                    weekDay="Sunday";
+                    schoolDay=0;
+                }
+
+                
+                if (day===15){   //Monday
+                    weekDay="Monday";
+                    schoolDay=7;
+                }
+                if (day===16){   //Tuesday
+                    weekDay="Tuesday";
+                    schoolDay=1;
+                }
+                if (day===17){   //Wednesday
+                    weekDay="Wednesday";
+                    schoolDay=2;
+                }
+                if (day===18){   //Thursday
+                    weekDay="Thursday";
+                    schoolDay=3;
+                }
+                if (day===19){   //Friday
+                    weekDay="Friday";
+                    schoolDay=4;
+                }
+                if (day===20){   //Saturday
+                    weekDay="Satuday";
+                    schoolDay=0;
+                }
+                if (day===21){   //Sunday
+                    weekDay="Sunday";
+                    schoolDay=0;
+                }
+
+                
+                if (day===22){   //Monday
+                    weekDay="Monday";
+                    schoolDay=1;
+                }
+                if (day===23){   //Tuesday
+                    weekDay="Tuesday";
+                    schoolDay=2;
+                }
+                if (day===24){   //Wednesday
+                    weekDay="Wednesday";
+                    schoolDay=3;
+                }
+                if (day===25){   //Thursday
+                    weekDay="Thursday";
+                    schoolDay=4;
+                }
+                if (day===26){   //Friday
+                    weekDay="Friday";
+                    schoolDay=5;
+                }
+                if (day===27){   //Saturday
+                    weekDay="Satuday";
+                    schoolDay=0;
+                }
+                if (day===28){   //Sunday
+                    weekDay="Sunday";
+                    schoolDay=0;
+                }
+
+
+                
+                if (day===29){   //Monday
+                    weekDay="Monday";
+                    schoolDay=6;
+                }
+                if (day===30){   //Tuesday
+                    weekDay="Tuesday";
+                    schoolDay=7;
+                }
+            }
+
+            if (month===7) {
+                if (day===1){   //Thursday
+                    weekDay="Thursday";
+                    schoolDay=2;
+                }
+                if (day===2){   //Friday
+                    weekDay="Friday";
+                    schoolDay=3;
+                }
+                if (day===3){   //Saturday
+                    weekDay="Satuday";
+                    schoolDay=0;
+                }
+                if (day===4){   //Sunday
+                    weekDay="Sunday";
+                    schoolDay=0;
+                }
+
+                
+                if (day===5){   //Monday
+                    weekDay="Monday";
+                    schoolDay=4;
+                }
+                if (day===6){   //Tuesday
+                    weekDay="Tuesday";
+                    schoolDay=5;
+                }
+                if (day===7){   //Wednesday
+                    weekDay="Wednesday";
+                    schoolDay=6;
+                }
+                if (day===8){   //Thursday
+                    weekDay="Thursday";
+                    schoolDay=7;
+                }
+                if (day===9){   //Friday
+                    weekDay="Friday";
+                    schoolDay=1;
+                }
+                if (day===10){   //Saturday
+                    weekDay="Satuday";
+                    schoolDay=0;
+                }
+                if (day===11){   //Sunday
+                    weekDay="Sunday";
+                    schoolDay=0;
+                }
+
+                
+                if (day===12){   //Monday
+                    weekDay="Monday";
+                    schoolDay=2;
+                }
+                if (day===13){   //Tuesday
+                    weekDay="Tuesday";
+                    schoolDay=3;
+                }
+                if (day===14){   //Wednesday
+                    weekDay="Wednesday";
+                    schoolDay=4;
+                }
+                if (day===15){   //Thursday
+                    weekDay="Thursday";
+                    schoolDay=5;
+                }
+                if (day===16){   //Friday
+                    weekDay="Friday";
+                    schoolDay=6;
+                }
+                if (day===17){   //Saturday
+                    weekDay="Satuday";
+                    schoolDay=0;
+                }
+                if (day===18){   //Sunday
+                    weekDay="Sunday";
+                    schoolDay=0;
+                }
+
+                
+                if (day===19){   //Monday
+                    weekDay="Monday";
+                    schoolDay=7;
+                }
+                if (day===20){   //Tuesday
+                    weekDay="Tuesday";
+                    schoolDay=1;
+                }
+                if (day===21){   //Wednesday
+                    weekDay="Wednesday";
+                    schoolDay=2;
+                }
+                if (day===22){   //Thursday
+                    weekDay="Thursday";
+                    schoolDay=3;
+                }
+                if (day===23){   //Friday
+                    weekDay="Friday";
+                    schoolDay=4;
+                }
+                if (day===24){   //Saturday
+                    weekDay="Satuday";
+                    schoolDay=0;
+                }
+                if (day===25){   //Sunday
+                    weekDay="Sunday";
+                    schoolDay=0;
+                }
+
+                
+                if (day===26){   //Monday
+                    weekDay="Monday";
+                    schoolDay=1;
+                }
+                if (day===27){   //Tuesday
+                    weekDay="Tuesday";
+                    schoolDay=2;
+                }
+                if (day===28){   //Wednesday
+                    weekDay="Wednesday";
+                    schoolDay=3;
+                }
+                if (day===29){   //Thursday
+                    weekDay="Thursday";
+                    schoolDay=4;
+                }
+                if (day===30){   //Friday
+                    weekDay="Friday";
+                    schoolDay=5;
+                }
+                if (day===31){   //Saturday
+                    weekDay="Satuday";
+                    schoolDay=0;
+                }
+            }
+        
+            document.getElementById("Day").innerHTML=schoolDay;
+            
+            if (weekDay==="Tuesday") {
+                dayStart=6.30;
+                p1End=9.52;
+                p2End=10.44;
+                p3End=11.36;
+                p4End=13.21;
+                p5End=14.13;
+                p6End=15.05;
+                CPT=true;
+                Adv=false;
+            } else if (weekDay==="Thursday") {
+                dayStart=6.30;
+                p1End=9.19;
+                p2End=10.41;
+                p3End=11.34;
+                p4End=13.19;
+                p5End=14.12;
+                p6End=15.05;
+                Adv=true; //Make detector to add Advisory period :)
+                CPT=false;
+            } else {
+                dayStart=6.30;
+                p1End=9.32;
+                p1MainEnd="9:32";
+                //57
+                p2End=10.29;
+                p2MainEnd="10:29";
+                //57
+                p3End=11.26;
+                p3MainEnd="11:26";
+                //105
+                p4End=13.11;
+                p4MainEnd="13:11";
+                //57
+                p5End=14.08;
+                p5MainEnd="14.08";
+                //57
+                p6End=15.05;
+                p6MainEnd="15:05";
+                
+                CPT=false;
+                Adv=false;
+            }
+            
+
+            if (schoolDay===1) {
+                
+                if (currentTime>=dayStart && currentTime<p1End) {
+                    document.getElementById("Period").innerHTML="B";
+                    document.getElementById("Class").innerHTML=bPeriod;
+                    document.getElementById("NextPeriod").innerHTML="C";
+                    document.getElementById("NextClass").innerHTML=c157Period;
+                    PeriodNum=1;
+                }
+                if (currentTime>=p1End && currentTime<p2End) {
+                    document.getElementById("Period").innerHTML="C";
+                    document.getElementById("Class").innerHTML=c157Period;
+                    document.getElementById("NextPeriod").innerHTML="D";
+                    document.getElementById("NextClass").innerHTML=dPeriod;
+                    PeriodNum=2;
+                }
+                if (currentTime>=p2End && currentTime<p3End) {
+                    document.getElementById("Period").innerHTML="D";
+                    document.getElementById("Class").innerHTML=dPeriod;
+                    document.getElementById("NextPeriod").innerHTML="E";
+                    document.getElementById("NextClass").innerHTML=ePeriod;
+                    lunchNext=true;
+                    PeriodNum=3;
+                }
+                if (currentTime>=p3End && currentTime<p4End) {
+                    document.getElementById("Period").innerHTML="E";
+                    document.getElementById("Class").innerHTML=ePeriod;
+                    document.getElementById("NextPeriod").innerHTML="F";
+                    document.getElementById("NextClass").innerHTML=fPeriod;
+                    lunchNext=false;
+                    PeriodNum=4;
+                }
+                if (currentTime>=p4End && currentTime<p5End) {
+                    document.getElementById("Period").innerHTML="F";
+                    document.getElementById("Class").innerHTML=fPeriod;
+                    document.getElementById("NextPeriod").innerHTML="G";
+                    document.getElementById("NextClass").innerHTML=gPeriod;
+                    PeriodNum=5;
+                }
+                if (currentTime>=p5End && currentTime<p6End) {
+                    document.getElementById("Period").innerHTML="G";
+                    document.getElementById("Class").innerHTML=gPeriod;
+                    document.getElementById("NextPeriod").innerHTML="Not Any";
+                    document.getElementById("NextClass").innerHTML="Home";
+                    PeriodNum=6;
+                }
+            }
+            
+            if (schoolDay===2) {
+                
+                if (currentTime>=dayStart && currentTime<p1End) {
+                    document.getElementById("Period").innerHTML="F";
+                    document.getElementById("Class").innerHTML=fPeriod;
+                    document.getElementById("NextPeriod").innerHTML="A";
+                    document.getElementById("NextClass").innerHTML=aPeriod;
+                    PeriodNum=1;
+                }
+                if (currentTime>=p1End && currentTime<p2End) {
+                    document.getElementById("Period").innerHTML="A";
+                    document.getElementById("Class").innerHTML=aPeriod;
+                    document.getElementById("NextPeriod").innerHTML="C";
+                    document.getElementById("NextClass").innerHTML=c246Period;
+                    PeriodNum=2;
+                }
+                if (currentTime>=p2End && currentTime<p3End) {
+                    document.getElementById("Period").innerHTML="C";
+                    document.getElementById("Class").innerHTML=c246Period;
+                    document.getElementById("NextPeriod").innerHTML="D";
+                    document.getElementById("NextClass").innerHTML=dPeriod;
+                    lunchNext=true;
+                    PeriodNum=3;
+                }
+                if (currentTime>=p3End && currentTime<p4End) {
+                    document.getElementById("Period").innerHTML="D";
+                    document.getElementById("Class").innerHTML=dPeriod;
+                    document.getElementById("NextPeriod").innerHTML="E";
+                    document.getElementById("NextClass").innerHTML=ePeriod;
+                    lunchNext=false;
+                    PeriodNum=4;
+                }
+                if (currentTime>=p4End && currentTime<p5End) {
+                    document.getElementById("Period").innerHTML="E";
+                    document.getElementById("Class").innerHTML=ePeriod;
+                    document.getElementById("NextPeriod").innerHTML="G";
+                    document.getElementById("NextClass").innerHTML=gPeriod;
+                    PeriodNum=5;
+                }
+                if (currentTime>=p5End && currentTime<p6End) {
+                    document.getElementById("Period").innerHTML="G";
+                    document.getElementById("Class").innerHTML=gPeriod;
+                    document.getElementById("NextPeriod").innerHTML="Not Any";
+                    document.getElementById("NextClass").innerHTML="Home";
+                    PeriodNum=6;
+                }
+            }
+
+            if (schoolDay===3) {
+                
+                if (currentTime>=dayStart && currentTime<p1End) {
+                    document.getElementById("Period").innerHTML="E";
+                    document.getElementById("Class").innerHTML=ePeriod;
+                    document.getElementById("NextPeriod").innerHTML="D";
+                    document.getElementById("NextClass").innerHTML=dPeriod;
+                    PeriodNum=1;
+                }
+                if (currentTime>=p1End && currentTime<p2End) {
+                    document.getElementById("Period").innerHTML="D";
+                    document.getElementById("Class").innerHTML=dPeriod;
+                    document.getElementById("NextPeriod").innerHTML="A";
+                    document.getElementById("NextClass").innerHTML=aPeriod;
+                    PeriodNum=2;
+                }
+                if (currentTime>=p2End && currentTime<p3End) {
+                    document.getElementById("Period").innerHTML="A";
+                    document.getElementById("Class").innerHTML=aPeriod;
+                    document.getElementById("NextPeriod").innerHTML="B";
+                    document.getElementById("NextClass").innerHTML=bPeriod;
+                    lunchNext=true;
+                    PeriodNum=3;
+                }
+                if (currentTime>=p3End && currentTime<p4End) {
+                    document.getElementById("Period").innerHTML="B";
+                    document.getElementById("Class").innerHTML=bPeriod;
+                    document.getElementById("NextPeriod").innerHTML="F";
+                    document.getElementById("NextClass").innerHTML=fPeriod;
+                    lunchNext=false;
+                    PeriodNum=4;
+                }
+                if (currentTime>=p4End && currentTime<p5End) {
+                    document.getElementById("Period").innerHTML="F";
+                    document.getElementById("Class").innerHTML=fPeriod;
+                    document.getElementById("NextPeriod").innerHTML="G";
+                    document.getElementById("NextClass").innerHTML=gbPeriod;
+                    PeriodNum=5;
+                }
+                if (currentTime>=p5End && currentTime<p6End) {
+                    document.getElementById("Period").innerHTML="G";
+                    document.getElementById("Class").innerHTML=gPeriod;
+                    document.getElementById("NextPeriod").innerHTML="Not Any";
+                    document.getElementById("NextClass").innerHTML="Home";
+                    PeriodNum=6;
+                }
+            }
+            
+            if (schoolDay===4) {
+                
+                if (currentTime>=dayStart && currentTime<p1End) {
+                    document.getElementById("Period").innerHTML="F";
+                    document.getElementById("Class").innerHTML=fPeriod;
+                    document.getElementById("NextPeriod").innerHTML="E";
+                    document.getElementById("NextClass").innerHTML=ePeriod;
+                    PeriodNum=1;
+                }
+                if (currentTime>=p1End && currentTime<p2End) {
+                    document.getElementById("Period").innerHTML="E";
+                    document.getElementById("Class").innerHTML=ePeriod;
+                    document.getElementById("NextPeriod").innerHTML="C";
+                    document.getElementById("NextClass").innerHTML=c246Period;
+                    PeriodNum=2;
+                }
+                if (currentTime>=p2End && currentTime<p3End) {
+                    document.getElementById("Period").innerHTML="C";
+                    document.getElementById("Class").innerHTML=c246Period;
+                    document.getElementById("NextPeriod").innerHTML="A";
+                    document.getElementById("NextClass").innerHTML=aPeriod;
+                    lunchNext=true;
+                    PeriodNum=3;
+                }
+                if (currentTime>=p3End && currentTime<p4End) {
+                    document.getElementById("Period").innerHTML="A";
+                    document.getElementById("Class").innerHTML=aPeriod;
+                    document.getElementById("NextPeriod").innerHTML="B";
+                    document.getElementById("NextClass").innerHTML=bPeriod;
+                    lunchNext=false;
+                    PeriodNum=4;
+                }
+                if (currentTime>=p4End && currentTime<p5End) {
+                    document.getElementById("Period").innerHTML="B";
+                    document.getElementById("Class").innerHTML=bPeriod;
+                    document.getElementById("NextPeriod").innerHTML="G";
+                    document.getElementById("NextClass").innerHTML=gPeriod;
+                    PeriodNum=5;
+                }
+                if (currentTime>=p5End && currentTime<p6End) {
+                    document.getElementById("Period").innerHTML="G";
+                    document.getElementById("Class").innerHTML=gPeriod;
+                    document.getElementById("NextPeriod").innerHTML="Not Any";
+                    document.getElementById("NextClass").innerHTML="Home";
+                    PeriodNum=6;
+                }
+            }
+            
+            if (schoolDay===5) {
+                
+                if (currentTime>=dayStart && currentTime<p1End) {
+                    document.getElementById("Period").innerHTML="B";
+                    document.getElementById("Class").innerHTML=bPeriod;
+                    document.getElementById("NextPeriod").innerHTML="C";
+                    document.getElementById("NextClass").innerHTML=c157Period;
+                    PeriodNum=1;
+                }
+                if (currentTime>=p1End && currentTime<p2End) {
+                    document.getElementById("Period").innerHTML="C";
+                    document.getElementById("Class").innerHTML=c157Period;
+                    document.getElementById("NextPeriod").innerHTML="A";
+                    document.getElementById("NextClass").innerHTML=aPeriod;
+                    PeriodNum=2;
+                }
+                if (currentTime>=p2End && currentTime<p3End) {
+                    document.getElementById("Period").innerHTML="A";
+                    document.getElementById("Class").innerHTML=aPeriod;
+                    document.getElementById("NextPeriod").innerHTML="F";
+                    document.getElementById("NextClass").innerHTML=fPeriod;
+                    lunchNext=true;
+                    PeriodNum=3;
+                }
+                if (currentTime>=p3End && currentTime<p4End) {
+                    document.getElementById("Period").innerHTML="F";
+                    document.getElementById("Class").innerHTML=fPeriod;
+                    document.getElementById("NextPeriod").innerHTML="D";
+                    document.getElementById("NextClass").innerHTML=dPeriod;
+                    lunchNext=false;
+                    PeriodNum=4;
+                }
+                if (currentTime>=p4End && currentTime<p5End) {
+                    document.getElementById("Period").innerHTML="D";
+                    document.getElementById("Class").innerHTML=dPeriod;
+                    document.getElementById("NextPeriod").innerHTML="G";
+                    document.getElementById("NextClass").innerHTML=gPeriod;
+                    PeriodNum=5;
+                }
+                if (currentTime>=p5End && currentTime<p6End) {
+                    document.getElementById("Period").innerHTML="G";
+                    document.getElementById("Class").innerHTML=gPeriod;
+                    document.getElementById("NextPeriod").innerHTML="Not Any";
+                    document.getElementById("NextClass").innerHTML="Home";
+                    PeriodNum=6;
+                }
+            }
+            
+            if (schoolDay===6) {
+                
+                if (currentTime>=dayStart && currentTime<p1End) {
+                    document.getElementById("Period").innerHTML="D";
+                    document.getElementById("Class").innerHTML=dPeriod;
+                    document.getElementById("NextPeriod").innerHTML="C";
+                    document.getElementById("NextClass").innerHTML=c246Period;
+                    PeriodNum=1;
+                }
+                if (currentTime>=p1End && currentTime<p2End) {
+                    document.getElementById("Period").innerHTML="B";
+                    document.getElementById("Class").innerHTML=bPeriod;
+                    document.getElementById("NextPeriod").innerHTML="C";
+                    document.getElementById("NextClass").innerHTML=c246Period;
+                    PeriodNum=2;
+                }
+                if (currentTime>=p2End && currentTime<p3End) {
+                    document.getElementById("Period").innerHTML="C";
+                    document.getElementById("Class").innerHTML=c246Period;
+                    document.getElementById("NextPeriod").innerHTML="G";
+                    document.getElementById("NextClass").innerHTML=gPeriod;
+                    lunchNext=true;
+                    PeriodNum=3;
+                }
+                if (currentTime>=p3End && currentTime<p4End) {
+                    document.getElementById("Period").innerHTML="G";
+                    document.getElementById("Class").innerHTML=gPeriod;
+                    document.getElementById("NextPeriod").innerHTML="A";
+                    document.getElementById("NextClass").innerHTML=aPeriod;
+                    lunchNext=false;
+                    PeriodNum=4;
+                }
+                if (currentTime>=p4End && currentTime<p5End) {
+                    document.getElementById("Period").innerHTML="A";
+                    document.getElementById("Class").innerHTML=aPeriod;
+                    document.getElementById("NextPeriod").innerHTML="E";
+                    document.getElementById("NextClass").innerHTML=ePeriod;
+                    PeriodNum=5;
+                }
+                if (currentTime>=p5End && currentTime<p6End) {
+                    document.getElementById("Period").innerHTML="E";
+                    document.getElementById("Class").innerHTML=ePeriod;
+                    document.getElementById("NextPeriod").innerHTML="Not Any";
+                    document.getElementById("NextClass").innerHTML="Home";
+                    PeriodNum=6;
+                }
+            }
+
+            if (schoolDay===7) {
+                
+                if (currentTime>=dayStart && currentTime<p1End) {
+                    document.getElementById("Period").innerHTML="E";
+                    document.getElementById("Class").innerHTML=ePeriod;
+                    document.getElementById("NextPeriod").innerHTML="A";
+                    document.getElementById("NextClass").innerHTML=aPeriod;
+                    PeriodNum=1;
+                }
+                if (currentTime>=p1End && currentTime<p2End) {
+                    document.getElementById("Period").innerHTML="A";
+                    document.getElementById("Class").innerHTML=aPeriod;
+                    document.getElementById("NextPeriod").innerHTML="B";
+                    document.getElementById("NextClass").innerHTML=bPeriod;
+                    PeriodNum=2;
+                }
+                if (currentTime>=p2End && currentTime<p3End) {
+                    document.getElementById("Period").innerHTML="B";
+                    document.getElementById("Class").innerHTML=bPeriod;
+                    document.getElementById("NextPeriod").innerHTML="C";
+                    document.getElementById("NextClass").innerHTML=c157Period;
+                    lunchNext=true;
+                    PeriodNum=3;
+                }
+                if (currentTime>=p3End && currentTime<p4End) {
+                    document.getElementById("Period").innerHTML="C";
+                    document.getElementById("Class").innerHTML=c157Period;
+                    document.getElementById("NextPeriod").innerHTML="F";
+                    document.getElementById("NextClass").innerHTML=fPeriod;
+                    lunchNext=false;
+                    PeriodNum=4;
+                }
+                if (currentTime>=p4End && currentTime<p5End) {
+                    document.getElementById("Period").innerHTML="F";
+                    document.getElementById("Class").innerHTML=fPeriod;
+                    document.getElementById("NextPeriod").innerHTML="D";
+                    document.getElementById("NextClass").innerHTML=dPeriod;
+                    PeriodNum=5;
+                }
+                if (currentTime>=p5End && currentTime<p6End) {
+                    document.getElementById("Period").innerHTML="D";
+                    document.getElementById("Class").innerHTML=dPeriod;
+                    document.getElementById("NextPeriod").innerHTML="Not Any";
+                    document.getElementById("NextClass").innerHTML="Home";
+                    PeriodNum=6;
+                }
+            }
+        
+        refreshFunc()
+
+        }
+    </script>
+</html>
